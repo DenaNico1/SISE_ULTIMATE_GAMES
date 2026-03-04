@@ -1,0 +1,4 @@
+player_name,game_id,duration_sec,btn_press_rate,btn_variety,btn_hold_avg_ms,lx_mean,ly_mean,lx_std,ly_std,lx_direction_changes,rx_mean,ry_mean,rx_std,ry_std,lt_mean,rt_mean,lt_brutality,rt_brutality,reaction_time_avg_ms,input_regularity,score
+yasstest,reflex,59.61741018295288,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-130
+yasstest,reflex,30.244945764541626,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,13
+yasstest,reflex,59.79027557373047,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,599
