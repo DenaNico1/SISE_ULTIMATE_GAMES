@@ -40,6 +40,7 @@ SESSION_COLUMNS = [
     "rt_brutality",
     "reaction_time_avg_ms",
     "input_regularity",
+    "source",
     "score",
 ]
 
@@ -51,6 +52,7 @@ def _get_client():
             "❌ SUPABASE_URL ou SUPABASE_KEY manquant dans le fichier .env"
         )
     from supabase import create_client
+
     return create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
@@ -154,8 +156,9 @@ def fetch_latest_sessions(limit: int = 20) -> list[dict]:
         return []
 
 
-def save_profile_to_supabase(player_name: str, cluster_id: int,
-                              cluster_name: str, features_dict: dict) -> bool:
+def save_profile_to_supabase(
+    player_name: str, cluster_id: int, cluster_name: str, features_dict: dict
+) -> bool:
     """
     Upsert un profil ML dans la table `profils_ml`.
     Appelé par le pipeline de clustering après calcul.
@@ -168,6 +171,7 @@ def save_profile_to_supabase(player_name: str, cluster_id: int,
     """
     try:
         import json
+
         client = _get_client()
         row = {
             "player_name": player_name,
@@ -177,9 +181,7 @@ def save_profile_to_supabase(player_name: str, cluster_id: int,
         }
         # Upsert : met à jour si le joueur existe déjà
         result = (
-            client.table("profils_ml")
-            .upsert(row, on_conflict="player_name")
-            .execute()
+            client.table("profils_ml").upsert(row, on_conflict="player_name").execute()
         )
         print(f"🧬 Profil '{cluster_name}' enregistré pour {player_name}")
         return True
