@@ -3,6 +3,8 @@ SISE ULTIMATE — Point d'entrée principal
 Usage :
   python main.py --player Alice --game reflex
   python main.py --player Bob   --game labyrinth
+  python main.py --player Carol --game shooter
+  python main.py --player Dave  --game racing
 """
 
 import sys
@@ -15,8 +17,8 @@ def main():
     parser.add_argument(
         "--game",
         type=str,
-        default="reflex",
-        choices=["reflex", "labyrinth"],
+        default="shooter",
+        choices=["reflex", "labyrinth", "shooter", "racing"],
         help="Jeu à lancer",
     )
     parser.add_argument(
@@ -24,11 +26,14 @@ def main():
     )
     args = parser.parse_args()
 
-    # Import tardif pour éviter pygame au niveau module
     if args.game == "reflex":
         from games.reflex_game import ReflexGame as GameClass
     elif args.game == "labyrinth":
         from games.labyrinth_game import LabyrinthGame as GameClass
+    elif args.game == "shooter":
+        from games.shooter_game import TwinStickShooter as GameClass
+    elif args.game == "racing":
+        from games.racing_game import RacingGame as GameClass
 
     game = GameClass(player_name=args.player, headless=args.headless)
     features = game.run()
