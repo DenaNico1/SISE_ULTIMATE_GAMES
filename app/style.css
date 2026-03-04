@@ -1,0 +1,114 @@
+/* ControllerProfiler — Custom Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+}
+
+#root {
+    height: 100vh;
+    overflow: hidden;
+}
+
+#main-container {
+    height: 100vh;
+    overflow: hidden;
+}
+
+#page-content {
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+
+#page-content::-webkit-scrollbar {
+    width: 4px;
+}
+#page-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+#page-content::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+}
+
+/* Sidebar nav buttons */
+.nav-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.45);
+    padding: 10px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.85);
+}
+
+/* Theme buttons */
+.theme-btn {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.55);
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.9);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* Dropdown overrides */
+.custom-dropdown .Select-control {
+    background: transparent !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+.custom-dropdown .Select-menu-outer {
+    background: #1a1a2e !important;
+}
+
+/* Slider */
+.custom-slider .rc-slider-track {
+    background: linear-gradient(90deg, #C724B1, #00F5FF);
+}
+
+/* Plotly chart overrides */
+.js-plotly-plot .plotly .modebar {
+    display: none !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#page-content > div {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
