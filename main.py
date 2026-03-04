@@ -1,35 +1,35 @@
 """
 SISE ULTIMATE — Point d'entrée principal
-Lance un mini-jeu pour un joueur donné.
+Usage :
+  python main.py --player Alice --game reflex
+  python main.py --player Bob   --game labyrinth
 """
 
 import sys
 import argparse
-from games.reflex_game import ReflexGame
 
 
 def main():
     parser = argparse.ArgumentParser(description="SISE ULTIMATE — IA Temps Réel")
     parser.add_argument("--player", type=str, default="Player1", help="Nom du joueur")
     parser.add_argument(
-        "--game", type=str, default="reflex", help="Jeu à lancer (reflex, ...)"
+        "--game",
+        type=str,
+        default="reflex",
+        choices=["reflex", "labyrinth"],
+        help="Jeu à lancer",
     )
     parser.add_argument(
         "--headless", action="store_true", help="Mode sans fenêtre (tests)"
     )
     args = parser.parse_args()
 
-    GAMES = {
-        "reflex": ReflexGame,
-        # "labyrinth": LabyrinthGame,  # À ajouter plus tard
-        # "rhythm":    RhythmGame,
-    }
+    # Import tardif pour éviter pygame au niveau module
+    if args.game == "reflex":
+        from games.reflex_game import ReflexGame as GameClass
+    elif args.game == "labyrinth":
+        from games.labyrinth_game import LabyrinthGame as GameClass
 
-    if args.game not in GAMES:
-        print(f"❌ Jeu inconnu : {args.game}. Disponibles : {list(GAMES.keys())}")
-        sys.exit(1)
-
-    GameClass = GAMES[args.game]
     game = GameClass(player_name=args.player, headless=args.headless)
     features = game.run()
 

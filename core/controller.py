@@ -1,6 +1,13 @@
 """
 Controller module — lecture temps réel de la manette via pygame
 Compatible Xbox, PS4/PS5, manettes génériques USB
+Fallback clavier complet quand aucune manette n'est branchée.
+
+Clavier (mode sans manette) :
+  Joystick gauche  : Flèches directionnelles
+  Boutons A/B/X/Y  : Z / X / C / V
+  Gâchette gauche  : A
+  Gâchette droite  : E
 """
 
 import pygame
@@ -14,62 +21,47 @@ class ControllerState:
     """Snapshot de l'état de la manette à un instant T"""
 
     timestamp: float
-    # Axes analogiques (valeurs entre -1.0 et 1.0)
     axis_left_x: float = 0.0
     axis_left_y: float = 0.0
     axis_right_x: float = 0.0
     axis_right_y: float = 0.0
-    trigger_left: float = 0.0  # 0.0 à 1.0
-    trigger_right: float = 0.0  # 0.0 à 1.0
-    # Boutons (True = appuyé)
+    trigger_left: float = 0.0
+    trigger_right: float = 0.0
     buttons: dict = field(default_factory=dict)
-    # Hat (D-pad)
     hat: tuple = (0, 0)
+    source: str = "controller"  # "controller" ou "keyboard"
 
 
 class Controller:
-    """
-    Wrapper pygame pour lire une manette en temps réel.
-    Détecte automatiquement la première manette branchée.
-    """
-
-    # Mapping des axes selon le type de manette (détection automatique)
     AXIS_MAP = {
         "xbox": {"lx": 0, "ly": 1, "rx": 3, "ry": 4, "lt": 2, "rt": 5},
         "ps": {"lx": 0, "ly": 1, "rx": 2, "ry": 3, "lt": 4, "rt": 5},
         "generic": {"lx": 0, "ly": 1, "rx": 2, "ry": 3, "lt": 4, "rt": 5},
     }
-
-    DEADZONE = 0.08  # Ignorer les micro-mouvements
+    DEADZONE = 0.08
 
     def __init__(self):
         pygame.init()
         pygame.joystick.init()
-        self.joystick: Optional[pygame.joystick.Joystick] = None
+        self.joystick = None
         self.controller_type = "generic"
         self._axis_map = self.AXIS_MAP["generic"]
         self._connect()
 
     def _connect(self) -> bool:
-        """Tente de se connecter à la première manette disponible"""
         count = pygame.joystick.get_count()
         if count == 0:
-            print("⚠️  Aucune manette détectée. Mode clavier activé.")
+            print("⚠️  Aucune manette détectée — mode clavier activé.")
+            print("   Flèches = joystick | Z/X/C/V = boutons | A/E = gâchettes")
             return False
-
         self.joystick = pygame.joystick.Joystick(0)
         self.joystick.init()
         name = self.joystick.get_name().lower()
         print(f"🎮 Manette détectée : {self.joystick.get_name()}")
-
-        # Détection automatique du type
         if "xbox" in name or "xinput" in name:
             self.controller_type = "xbox"
         elif "playstation" in name or "dualshock" in name or "dualsense" in name:
             self.controller_type = "ps"
-        else:
-            self.controller_type = "generic"
-
         self._axis_map = self.AXIS_MAP[self.controller_type]
         print(f"   Type détecté : {self.controller_type}")
         return True
@@ -77,34 +69,61 @@ class Controller:
     def _apply_deadzone(self, value: float) -> float:
         return 0.0 if abs(value) < self.DEADZONE else value
 
+    def _get_keyboard_state(self) -> ControllerState:
+        """Simule un ControllerState complet depuis le clavier"""
+        keys = pygame.key.get_pressed()
+        lx = (1.0 if keys[pygame.K_RIGHT] else 0.0) - (
+            1.0 if keys[pygame.K_LEFT] else 0.0
+        )
+        ly = (1.0 if keys[pygame.K_DOWN] else 0.0) - (1.0 if keys[pygame.K_UP] else 0.0)
+        mag = (lx**2 + ly**2) ** 0.5
+        if mag > 1.0:
+            lx /= mag
+            ly /= mag
+        buttons = {
+            0: bool(keys[pygame.K_z]),
+            1: bool(keys[pygame.K_x]),
+            2: bool(keys[pygame.K_c]),
+            3: bool(keys[pygame.K_v]),
+            4: bool(keys[pygame.K_SPACE]),
+            5: bool(keys[pygame.K_LSHIFT]),
+        }
+        hat_x = (1 if keys[pygame.K_RIGHT] else 0) - (1 if keys[pygame.K_LEFT] else 0)
+        hat_y = (1 if keys[pygame.K_UP] else 0) - (1 if keys[pygame.K_DOWN] else 0)
+        return ControllerState(
+            timestamp=time.time(),
+            axis_left_x=lx,
+            axis_left_y=ly,
+            trigger_left=1.0 if keys[pygame.K_a] else 0.0,
+            trigger_right=1.0 if keys[pygame.K_e] else 0.0,
+            buttons=buttons,
+            hat=(hat_x, hat_y),
+            source="keyboard",
+        )
+
     def get_state(self) -> ControllerState:
-        """Retourne un snapshot de l'état actuel de la manette"""
-        pygame.event.pump()  # Mise à jour des événements pygame
-
+        pygame.event.pump()
         if self.joystick is None:
-            return ControllerState(timestamp=time.time())
-
+            return self._get_keyboard_state()
         m = self._axis_map
         num_axes = self.joystick.get_numaxes()
 
         def safe_axis(idx):
-            if idx < num_axes:
-                return self._apply_deadzone(self.joystick.get_axis(idx))
-            return 0.0
+            return (
+                self._apply_deadzone(self.joystick.get_axis(idx))
+                if idx < num_axes
+                else 0.0
+            )
 
-        # Triggers : normalisés de [-1,1] vers [0,1] pour Xbox
         lt_raw = safe_axis(m["lt"])
         rt_raw = safe_axis(m["rt"])
         lt = (lt_raw + 1) / 2 if self.controller_type == "xbox" else lt_raw
         rt = (rt_raw + 1) / 2 if self.controller_type == "xbox" else rt_raw
-
         buttons = {
             i: bool(self.joystick.get_button(i))
             for i in range(self.joystick.get_numbuttons())
         }
-
         hat = self.joystick.get_hat(0) if self.joystick.get_numhats() > 0 else (0, 0)
-
         return ControllerState(
             timestamp=time.time(),
             axis_left_x=safe_axis(m["lx"]),
@@ -115,13 +134,13 @@ class Controller:
             trigger_right=rt,
             buttons=buttons,
             hat=hat,
+            source="controller",
         )
 
     def is_connected(self) -> bool:
         return self.joystick is not None
 
     def reconnect(self):
-        """Tenter une reconnexion (utile si manette branchée après lancement)"""
         pygame.joystick.quit()
         pygame.joystick.init()
         self._connect()
