@@ -2,7 +2,7 @@
 BaseGame — classe abstraite dont héritent tous les mini-jeux
 Chaque jeu doit implémenter : setup(), update(), draw(), is_over()
 """
-
+from core.supabase_client import save_features_to_supabase
 import pygame
 from abc import ABC, abstractmethod
 from core.controller import Controller, ControllerState
@@ -112,6 +112,7 @@ class BaseGame(ABC):
         self.on_game_over()
         features = self.recorder.stop()
         save_features_to_csv(features)
+        save_features_to_supabase(features)
 
         if not self.headless:
             self._show_game_over_screen()
