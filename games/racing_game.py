@@ -155,11 +155,11 @@ class RacingGame(BaseGame):
                 1.0 if keys[pygame.K_LEFT] else 0.0
             )
 
-        accel = state.trigger_right
+        accel = 1.0 if state.buttons.get(5, False) else 0.0  # R1 (R2→R1)
         if accel < 0.05:
             accel = 1.0 if keys[pygame.K_UP] else 0.0
 
-        brake = state.trigger_left
+        brake = 1.0 if state.buttons.get(4, False) else 0.0  # L1 (L2→L1)
         if brake < 0.05:
             brake = 1.0 if keys[pygame.K_DOWN] else 0.0
 
