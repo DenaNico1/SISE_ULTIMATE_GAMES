@@ -23,6 +23,8 @@ import webbrowser
 
 # ── Import des jeux ───────────────────────────────────────────────────────────
 from games.reflex_game    import ReflexGame
+import pygame
+from games.reflex_game import ReflexGame
 from games.labyrinth_game import LabyrinthGame
 from games.shooter_game   import TwinStickShooter
 from games.racing_game    import RacingGame
