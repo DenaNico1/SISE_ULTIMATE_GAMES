@@ -2291,4 +2291,6 @@ def update_live_inputs(n, theme):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="127.0.0.1", port=8200, use_reloader=False)
+    app.run(debug=True, port=8050)
+    # utiliser cette ligne si le port 8050 est réservé
+    # app.run(debug=False, host="127.0.0.1", port=8200, use_reloader=False)
