@@ -8,6 +8,7 @@
 [![Supabase](https://img.shields.io/badge/Backend-Supabase-3ECF8E?logo=supabase)](https://supabase.com/)
 [![Mistral](https://img.shields.io/badge/LLM-Mistral%20AI-orange)](https://mistral.ai/)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
+[![Présentation](https://img.shields.io/badge/Slides-Canva-8B3DFF?logo=canva)](https://www.canva.com/design/DAHC_9YOXjQ/RTeTzMMWfSxd0moCdxwVgA/edit?utm_content=DAHC_9YOXjQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ---
 
