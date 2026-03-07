@@ -24,6 +24,14 @@ try:
 except Exception:
     SUPABASE_AVAILABLE = False
 
+# Pre-fetch sessions at startup to avoid race condition on first render
+_initial_sessions = []
+if SUPABASE_AVAILABLE:
+    try:
+        _initial_sessions = fetch_latest_sessions(limit=200) or []
+    except Exception:
+        pass
+
 app = dash.Dash(
     __name__,
     assets_folder="assets",
@@ -1983,7 +1991,7 @@ def page_leaderboard(theme, df_real):
 app.layout = html.Div([
     dcc.Store(id="theme-store",       data="cyberpunk"),
     dcc.Store(id="page-store",        data="game"),
-    dcc.Store(id="sessions-store",    data=[]),
+    dcc.Store(id="sessions-store",    data=_initial_sessions),
     dcc.Store(id="stats-store",       data={}),
     dcc.Store(id="summary-store",     data=[]),
     dcc.Store(id="agent-pid-store",   data=None),
