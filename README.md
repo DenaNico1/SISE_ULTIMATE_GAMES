@@ -278,10 +278,10 @@ L1R1_MAP = {
 
 | Action | Clavier | Manette |
 |---|---|---|
-| Se déplacer | `W A S D` | Joystick gauche |
-| Viser | Flèches directionnelles | Joystick droit |
-| Tirer | `ESPACE` | Gâchette droite (RT/R2) |
-| Dash / Boost | `SHIFT` | Gâchette gauche (LT/L2) |
+| Se déplacer | Flèches directionnelles ou `Z Q S D` | Joystick gauche |
+| Viser | `Z Q S D` (si flèches utilisées pour déplacement) | Joystick droit |
+| Tirer | `E` ou `ESPACE` | Gâchette droite (RT/R2) |
+| Dash / Boost | `A` ou `SHIFT` | Gâchette gauche (LT/L2) |
 | Bombe | `K` | Bouton Y / Triangle |
 
 ### Racing
