@@ -40,7 +40,7 @@ Le système comprend :
 ---
 ## Application
 <!-- LOGO & HERO -->
-<img src="app/assets/app_game1.png" alt="accueil" width="1000"/>
+<img src="https://github.com/YassineCHN/SISE_ULTIMATE_GAMES/blob/main/app/assets/app_game1.PNG" alt="accueil" width="1000"/>
 <img src="app/assets/app_game2.PNG" alt="resumé" width="1000"/>
 <img src="app/assets/app_game3.PNG" alt="dashboard" width="1000"/>
 <img src="app/assets/app_game3.PNG" alt="analyse" width="1000"/>
