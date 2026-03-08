@@ -275,8 +275,8 @@ class LabyrinthGame(BaseGame):
             surf = font_s.render(s, True, (120, 120, 140))
             screen.blit(surf, (W - 190, 10 + i * 20))
 
-        # Hint clavier
-        hint = font_s.render("Flèches = déplacement", True, (50, 50, 70))
+        # Hint clavier + manette
+        hint = font_s.render("Flèches / Joystick gauche = déplacement", True, (50, 50, 70))
         screen.blit(hint, (W // 2 - hint.get_width() // 2, H - 58))
 
     def is_over(self) -> bool:

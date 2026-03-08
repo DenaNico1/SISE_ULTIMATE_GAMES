@@ -249,6 +249,46 @@ L1R1_MAP = {
 
 ---
 
+## 🎮 Tableau des commandes
+
+### Reflex
+
+| Action | Clavier | Manette |
+|---|---|---|
+| Bouton A / Croix | `Z` | Bouton A / Croix |
+| Bouton B / Rond | `X` | Bouton B / Rond |
+| Bouton X / Carré | `C` | Bouton X / Carré |
+| Bouton Y / Triangle | `V` | Bouton Y / Triangle |
+
+### Labyrinthe
+
+| Action | Clavier | Manette |
+|---|---|---|
+| Se déplacer | Flèches directionnelles | Joystick gauche |
+
+### Shooter
+
+| Action | Clavier | Manette |
+|---|---|---|
+| Se déplacer | `W A S D` | Joystick gauche |
+| Viser | Flèches directionnelles | Joystick droit |
+| Tirer | `ESPACE` | Gâchette droite (RT/R2) |
+| Dash / Boost | `SHIFT` | Gâchette gauche (LT/L2) |
+| Bombe | `K` | Bouton Y / Triangle |
+
+### Racing
+
+| Action | Clavier | Manette |
+|---|---|---|
+| Accélérer | `↑` | Gâchette droite (RT/R2) |
+| Freiner | `↓` | Gâchette gauche (LT/L2) |
+| Tourner | `← →` | Joystick gauche (axe X) |
+| Nitro | `SHIFT` | Bouton A / Croix |
+
+> **Sans manette**, le fallback clavier est activé automatiquement au lancement du jeu.
+
+---
+
 ## 📊 Features extraites par session
 
 Chaque session génère **20 features** utilisées pour le clustering :

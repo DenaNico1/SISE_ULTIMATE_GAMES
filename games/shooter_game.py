@@ -491,7 +491,7 @@ class TwinStickShooter(BaseGame):
 
         # --- Instructions ---
         hint = font_s.render(
-            "WASD/move  Flèches/aim  SPACE/shoot  SHIFT/dash  K/bomb",
+            "WASD/StickG=move  Flèches/StickD=aim  SPACE/RT=shoot  SHIFT/LT=dash  K/Y=bomb",
             True,
             (40, 40, 60),
         )

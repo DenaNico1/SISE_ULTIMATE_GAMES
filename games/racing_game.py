@@ -400,7 +400,7 @@ class RacingGame(BaseGame):
 
         # Hint
         hsurf = fs.render(
-            "↑ accélérer  ↓ freiner  ←/→ tourner  SHIFT nitro", True, (20, 80, 20)
+            "↑/RT accél.  ↓/LT frein  ←→/StickG tourner  SHIFT/A nitro", True, (20, 80, 20)
         )
         screen.blit(hsurf, (W // 2 - hsurf.get_width() // 2, H - 58))
 
